@@ -37,9 +37,9 @@ resource "ibm_container_vpc_cluster" "testcluster" {
   kube_version      = "1.25.9"  
   update_all_workers     = true
   wait_for_worker_update = true
-  depends_on = [ ibm_is_subnet.subnet1 ]
+  depends_on = [ ibm_is_subnet.subnet3 ]
   zones {
-    subnet_id = ibm_is_subnet.subnet1.id
+    subnet_id = ibm_is_subnet.subnet3.id
     name      = "us-south-1"
     
   }
