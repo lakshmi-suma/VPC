@@ -68,10 +68,19 @@ locals {
   # depends_on = [ data.ibm_container_vpc_cluster.cluster1 ]
   
 }
+output "ip1" {
+  value = local.value1
+
+  
+}
+output "ip2" {
+  value = local.value2
+  
+}
 
 locals {
   validation{
-    condition=local.value1!=local.value2
+    condition=local.value1==local.value2
     error_message="Please chane the ip_address in the bluefringe"
   }
 }
