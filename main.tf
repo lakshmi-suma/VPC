@@ -63,7 +63,7 @@ data "ibm_container_vpc_cluster" "cluster1" {
   
 }
 # Print the id's of the workers
-output "workers" {
+output "workers1" {
   value = data.ibm_container_vpc_cluster.cluster1.workers
   depends_on = [ data.ibm_container_vpc_cluster.cluster1 ]
   
