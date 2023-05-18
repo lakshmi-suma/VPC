@@ -92,3 +92,7 @@ output "display" {
   value = local.display
   
 }
+output "one" {
+  value = var.old
+  
+}
