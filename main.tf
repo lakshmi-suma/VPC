@@ -36,12 +36,12 @@ data "ibm_container_vpc_cluster" "cluster" {
 # Print the id's of the workers
 locals  {
   value1 = data.ibm_container_vpc_cluster.cluster.workers
-  # depends_on = [ data.ibm_container_vpc_cluster.cluster ]
+  depends_on = [ data.ibm_container_vpc_cluster.cluster ]
   
 }
 output "ip1" {
   value = local.value1
-
+  depends_on = [ local.value1 ]
   
 }
 
@@ -54,7 +54,7 @@ resource "ibm_container_vpc_cluster" "testcluster" {
   kube_version      = "1.26.4"  
   update_all_workers     = true
   wait_for_worker_update = true
-  depends_on = [ ibm_is_subnet.subnet3,data.ibm_container_vpc_cluster.cluster ]
+  depends_on = [ ibm_is_subnet.subnet3,data.ibm_container_vpc_cluster.cluster ,local.value1,output.ip1]
   zones {
     subnet_id = ibm_is_subnet.subnet3.id
     name      = "us-south-1"
