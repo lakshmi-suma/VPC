@@ -28,6 +28,18 @@ resource "ibm_is_subnet_public_gateway_attachment" "subatt" {
   # resource_group_name=IaC-dev
 }
 
+data "ibm_container_vpc_cluster" "cluster" {
+  name  = "testcluster"
+  # depends_on = [ ibm_container_vpc_cluster.cluster ]
+  
+}
+# Print the id's of the workers
+output "workers" {
+  value = data.ibm_container_vpc_cluster.cluster.workers
+  # depends_on = [ data.ibm_container_vpc_cluster.cluster ]
+  
+}
+
 resource "ibm_container_vpc_cluster" "testcluster" {
   name              = "testcluster"
   vpc_id            = ibm_is_vpc.vpc1.id
