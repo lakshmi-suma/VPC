@@ -34,8 +34,8 @@ data "ibm_container_vpc_cluster" "cluster" {
   
 }
 # Print the id's of the workers
-output "workers" {
-  value = data.ibm_container_vpc_cluster.cluster.workers
+locals  {
+  value1 = data.ibm_container_vpc_cluster.cluster.workers
   # depends_on = [ data.ibm_container_vpc_cluster.cluster ]
   
 }
@@ -44,12 +44,12 @@ resource "ibm_container_vpc_cluster" "testcluster" {
   name              = "testcluster"
   vpc_id            = ibm_is_vpc.vpc1.id
   flavor            = "bx2.4x16"
-  worker_count      = 3
+  worker_count      = 2
   resource_group_id=var.resource_group_id
   kube_version      = "1.25.9"  
   update_all_workers     = true
   wait_for_worker_update = true
-  depends_on = [ ibm_is_subnet.subnet3 ]
+  depends_on = [ ibm_is_subnet.subnet3,data.ibm_container_vpc_cluster.cluster ]
   zones {
     subnet_id = ibm_is_subnet.subnet3.id
     name      = "us-south-1"
@@ -63,8 +63,15 @@ data "ibm_container_vpc_cluster" "cluster1" {
   
 }
 # Print the id's of the workers
-output "workers1" {
-  value = data.ibm_container_vpc_cluster.cluster1.workers
-  depends_on = [ data.ibm_container_vpc_cluster.cluster1 ]
+locals {
+  value2 = data.ibm_container_vpc_cluster.cluster1.workers
+  # depends_on = [ data.ibm_container_vpc_cluster.cluster1 ]
   
+}
+
+locals {
+  validation{
+    condition=local.value1!=local.value2
+    error_message="Please chane the ip_address in the bluefringe"
+  }
 }
