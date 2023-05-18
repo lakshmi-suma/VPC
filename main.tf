@@ -46,7 +46,7 @@ resource "ibm_container_vpc_cluster" "testcluster" {
   flavor            = "bx2.4x16"
   worker_count      = 3
   resource_group_id=var.resource_group_id
-  kube_version      = "1.24.13"  
+  kube_version      = "1.25.9"  
   update_all_workers     = true
   wait_for_worker_update = true
   depends_on = [ ibm_is_subnet.subnet3 ]
@@ -55,4 +55,16 @@ resource "ibm_container_vpc_cluster" "testcluster" {
     name      = "us-south-1"
     
   }
+}
+
+data "ibm_container_vpc_cluster" "cluster1" {
+  name  = "testcluster"
+  depends_on = [ ibm_container_vpc_cluster.testcluster ]
+  
+}
+# Print the id's of the workers
+output "workers" {
+  value = data.ibm_container_vpc_cluster.cluster1.workers
+  depends_on = [ data.ibm_container_vpc_cluster.cluster1 ]
+  
 }
