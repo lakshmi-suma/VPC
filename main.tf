@@ -75,12 +75,16 @@ output "ip1" {
 }
 output "ip2" {
   value = local.value2
-  
-}
-
-locals {
   validation{
     condition=local.value1==local.value2
     error_message="Please chane the ip_address in the bluefringe"
   }
+  
 }
+
+# locals {
+#   validation{
+#     condition=local.value1==local.value2
+#     error_message="Please chane the ip_address in the bluefringe"
+#   }
+# }
